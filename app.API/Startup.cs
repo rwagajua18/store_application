@@ -13,6 +13,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using store_application.API.models.Data;
 
+
 namespace store_application.API
 {
     public class Startup
@@ -28,7 +29,10 @@ namespace store_application.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<StoreContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+            
+            
+            
             
         }
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
