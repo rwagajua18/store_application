@@ -45,6 +45,29 @@ namespace app.API.Controllers
 
         }
 
+        [HttpPost]
+        public IActionResult AddProduct(Product product)
+        {
+            _context.Products.Add(product);
+            _context.SaveChanges();
+
+            return Accepted(product);
+        }
+
+        [HttpDelete("{id}")]
+
+        public IActionResult DeleteProduct(int id)
+        {
+            if(id <= 0)
+            {
+                return NotFound();
+            }
+            var product = _context.Products.FirstOrDefault(x => x.ProdId ==id);
+            _context.Products.Remove(product);
+            _context.SaveChanges();
+            return Ok();
+        }
+
 
     }
 }
