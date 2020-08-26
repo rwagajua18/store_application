@@ -3,7 +3,7 @@ using store_application.API.models.Data;
 using Microsoft.Extensions.Logging;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
-
+using app.API.IRepositories;
 
 namespace app.API.Controllers
 {
@@ -11,14 +11,14 @@ namespace app.API.Controllers
     [Route("api/[controller]")]
     public class CategoryController: ControllerBase
     {
-        private readonly StoreContext _context;
+        private readonly ICategoryRepo _categoryRepo;
 
         private ILogger<CategoryController> _logger;
 
-        public CategoryController(ILogger<CategoryController> logger, StoreContext context)
+        public CategoryController(ILogger<CategoryController> logger, ICategoryRepo categoryRepo)
         {
             _logger = logger;
-            _context = context;
+            _categoryRepo = categoryRepo;
             
         }
 
@@ -31,7 +31,7 @@ namespace app.API.Controllers
         [HttpGet]
         public IActionResult GetAllCategories()
         {
-            var categories = _context.Categories.ToList();
+            var categories = _categoryRepo.Get();
 
             return Ok(categories);
         }
@@ -50,9 +50,7 @@ namespace app.API.Controllers
             {
                 return BadRequest("Invalid ID");
             }
-            var products = _context.Categories
-                           .Include(p => p.Products)
-                           .FirstOrDefault(x => x.catID == id);
+            var products = _categoryRepo.GetProductsFromCategory(id);         
             return Ok(products);
             
         }
