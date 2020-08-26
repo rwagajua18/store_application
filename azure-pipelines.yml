@@ -1,0 +1,47 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+ branches:
+   include:
+     - master
+ paths:
+  exclude:
+    - README.md
+    - .gitignore
+pr:
+ - master
+
+variables:
+  solutionPath: api.API
+    
+     
+jobs:
+  - job: build_linux
+    pool:
+      vmImage: 'ubuntu-latest'
+      
+    steps:
+      - task: DotNetCoreCLI@2
+        inputs:
+          command: 'build'
+          projects: '**/*.csproj'
+        displayName: dotnet build
+      - task: DotNetCoreCLI@2
+        inputs:
+          command: 'restore'
+          projects: '**/*.csproj'
+          feedsToUse: 'select'
+        displayName: dotnet restore
+      - task: DotNetCoreCLI@2
+        inputs:
+          command: 'publish'
+          publishWebProjects: false
+          projects: '**/*.csproj'
+          arguments: '-c Release -o ../publish'
+        displayName: dotnet build
+     
+
+
