@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using store_application.API.models;
 using System.Linq;
+using app.API.IRepositories;
 
 namespace app.API.Controllers
 {
@@ -11,12 +12,14 @@ namespace app.API.Controllers
     [Route("api/[controller]")]
     public class ProductController : ControllerBase
     {
-        private readonly StoreContext _context;
+        //private readonly StoreContext _context;
         private readonly ILogger<ProductController> _logger;
 
-        public ProductController(ILogger<ProductController> logger, StoreContext context)
+        private readonly IProductRepo _productRepo;
+
+        public ProductController(ILogger<ProductController> logger, IProductRepo productRepo)
         {
-            _context = context;
+            _productRepo = productRepo;
             _logger = logger;
             
         }
@@ -24,7 +27,7 @@ namespace app.API.Controllers
         [HttpGet]
         public IActionResult  Get()
         {
-            var products = _context.Products;
+            var products = _productRepo.Get();
             if(products == null)
             {
                 return NotFound(products);
@@ -40,7 +43,7 @@ namespace app.API.Controllers
             {
                 return NotFound("id does not exist");
             }
-            var product = _context.Products.FirstOrDefault(x => x.ProdId == id);
+            var product = _productRepo.getByProductId(id);
             return Ok(product);
 
         }
@@ -48,8 +51,8 @@ namespace app.API.Controllers
         [HttpPost]
         public IActionResult AddProduct(Product product)
         {
-            _context.Products.Add(product);
-            _context.SaveChanges();
+            _productRepo.AddProduct(product);
+            _productRepo.CommitChanges();
 
             return Accepted(product);
         }
@@ -62,9 +65,8 @@ namespace app.API.Controllers
             {
                 return NotFound();
             }
-            var product = _context.Products.FirstOrDefault(x => x.ProdId ==id);
-            _context.Products.Remove(product);
-            _context.SaveChanges();
+            _productRepo.DeleteProduct(id);
+            _productRepo.CommitChanges();
             return Ok();
         }
 
