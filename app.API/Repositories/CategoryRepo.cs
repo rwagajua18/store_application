@@ -24,7 +24,7 @@ namespace app.API.Repositories
         public IEnumerable<Category> GetProductsFromCategory(int id)
         {
             var products = _context.Categories
-                           .Include(p => p.Products).Where(x => x.catID == id).ToList();
+                           .Include(p => p.Products).Where(x => x.Id == id).ToList();
 
             return products;
         }
