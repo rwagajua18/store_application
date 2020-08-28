@@ -2,7 +2,7 @@
 
 namespace store_application.API.Migrations
 {
-    public partial class fixedModelsAgain : Migration
+    public partial class modifiedModels : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

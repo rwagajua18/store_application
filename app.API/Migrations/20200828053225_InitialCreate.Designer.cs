@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using store_application.API.models.Data;
 
 namespace store_application.API.Migrations
 {
     [DbContext(typeof(StoreContext))]
-    partial class StoreContextModelSnapshot : ModelSnapshot
+    [Migration("20200828053225_InitialCreate")]
+    partial class InitialCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -159,12 +161,7 @@ namespace store_application.API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("InventoryProdId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("InventoryStoreId")
-                        .HasColumnType("int");
+                    
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
@@ -178,8 +175,6 @@ namespace store_application.API.Migrations
                     b.HasKey("ProdId");
 
                     b.HasIndex("categoryID");
-
-                    b.HasIndex("InventoryStoreId", "InventoryProdId");
 
                     b.ToTable("Products");
                 });

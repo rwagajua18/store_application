@@ -26,7 +26,7 @@ namespace app.API.Repositories
 
         public void DeleteProduct(int id)
         {
-            var product = _context.Products.FirstOrDefault(x => x.Id == id);
+            var product = _context.Products.FirstOrDefault(x => x.ProdId == id);
             _context.Products.Remove(product);
         }
 
@@ -38,7 +38,7 @@ namespace app.API.Repositories
 
         public Product getByProductId(int id)
         {
-            return _context.Products.FirstOrDefault(x => x.Id == id);
+            return _context.Products.FirstOrDefault(x => x.ProdId == id);
         }
     }
 }

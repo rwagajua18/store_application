@@ -7,7 +7,7 @@ namespace store_application.API.models
     {
         
         [Key]
-        public int Id { get; set; }
+        public int CategoryId { get; set; }
         public string catName { get; set; }
 
         public ICollection<Product> Products {get; set;}
