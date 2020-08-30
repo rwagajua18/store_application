@@ -33,8 +33,11 @@ namespace store_application.API
             services.AddDbContext<StoreContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddControllers().AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
+
+            //adding repositories as services
             services.AddScoped<IProductRepo, ProductRepo>();
             services.AddScoped<ICategoryRepo, CategoryRepo>();
+            services.AddScoped<IStoreRepository, StoreRepository>();
             
             
             

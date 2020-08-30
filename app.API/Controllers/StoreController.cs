@@ -1,3 +1,4 @@
+using app.API.IRepositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -12,19 +13,19 @@ namespace app.API.Controllers
     public class StoreController: ControllerBase
     {
         private readonly ILogger<StoreController> _logger;
-        private readonly StoreContext _context;
+        
+        private readonly IStoreRepository _storeRepository;
 
-        public StoreController(ILogger<StoreController> logger, StoreContext context)
+        public StoreController(ILogger<StoreController> logger,IStoreRepository storeRepository)
         {
-            _context = context;
+            
             _logger = logger;
-
+            _storeRepository = storeRepository;
         }
         [HttpGet]
         public IActionResult GetStores()
         {
-            var stores = _context.Stores;
-
+            var stores = _storeRepository.getStores();
             if(stores == null)
             {
                 return BadRequest("Stores not found");
@@ -42,13 +43,8 @@ namespace app.API.Controllers
             {
                 return BadRequest("The id does not exist");
             }
-
-            var products = _context.Stores
-                           .Include(i => i.Inventory)
-                           .ThenInclude(p => p.Product)
-                           .Where(s => s.StoreId == id);
-
-            return Ok(products);
+            
+            return Ok(_storeRepository.getProductsFromStore(id));
         }
 
 
