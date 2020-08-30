@@ -10,8 +10,8 @@ using store_application.API.models.Data;
 namespace store_application.API.Migrations
 {
     [DbContext(typeof(StoreContext))]
-    [Migration("20200828053225_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20200829181631_FixedModels")]
+    partial class FixedModels
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -66,7 +66,8 @@ namespace store_application.API.Migrations
 
                     b.HasKey("StoreId", "ProdId");
 
-                    b.HasIndex("ProdId");
+                    b.HasIndex("StoreId")
+                        .IsUnique();
 
                     b.ToTable("Inventory");
                 });
@@ -161,7 +162,6 @@ namespace store_application.API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-                    
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
@@ -190,15 +190,9 @@ namespace store_application.API.Migrations
 
             modelBuilder.Entity("app.API.models.Inventory", b =>
                 {
-                    b.HasOne("store_application.API.models.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProdId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("app.API.models.Store", "Store")
-                        .WithMany()
-                        .HasForeignKey("StoreId")
+                    b.HasOne("app.API.models.Store", null)
+                        .WithOne("Inventory")
+                        .HasForeignKey("app.API.models.Inventory", "StoreId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -234,10 +228,6 @@ namespace store_application.API.Migrations
                         .HasForeignKey("categoryID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("app.API.models.Inventory", null)
-                        .WithMany("Products")
-                        .HasForeignKey("InventoryStoreId", "InventoryProdId");
                 });
 #pragma warning restore 612, 618
         }

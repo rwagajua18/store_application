@@ -1,4 +1,7 @@
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using app.API.models;
+
 namespace store_application.API.models
 {
     public class Product
@@ -12,6 +15,8 @@ namespace store_application.API.models
         public Category category { get; set; }
 
         public int categoryID { get; set; }
+
+    
 
         
 

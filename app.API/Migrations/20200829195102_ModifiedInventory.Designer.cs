@@ -10,8 +10,8 @@ using store_application.API.models.Data;
 namespace store_application.API.Migrations
 {
     [DbContext(typeof(StoreContext))]
-    [Migration("20200828060833_modifiedModels")]
-    partial class modifiedModels
+    [Migration("20200829195102_ModifiedInventory")]
+    partial class ModifiedInventory
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -66,7 +66,8 @@ namespace store_application.API.Migrations
 
                     b.HasKey("StoreId", "ProdId");
 
-                    b.HasIndex("ProdId");
+                    b.HasIndex("StoreId")
+                        .IsUnique();
 
                     b.ToTable("Inventory");
                 });
@@ -162,12 +163,6 @@ namespace store_application.API.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("InventoryProdId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("InventoryStoreId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
@@ -180,8 +175,6 @@ namespace store_application.API.Migrations
                     b.HasKey("ProdId");
 
                     b.HasIndex("categoryID");
-
-                    b.HasIndex("InventoryStoreId", "InventoryProdId");
 
                     b.ToTable("Products");
                 });
@@ -197,15 +190,9 @@ namespace store_application.API.Migrations
 
             modelBuilder.Entity("app.API.models.Inventory", b =>
                 {
-                    b.HasOne("store_application.API.models.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProdId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("app.API.models.Store", "Store")
-                        .WithMany()
-                        .HasForeignKey("StoreId")
+                        .WithOne("Inventory")
+                        .HasForeignKey("app.API.models.Inventory", "StoreId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -241,10 +228,6 @@ namespace store_application.API.Migrations
                         .HasForeignKey("categoryID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("app.API.models.Inventory", null)
-                        .WithMany("Products")
-                        .HasForeignKey("InventoryStoreId", "InventoryProdId");
                 });
 #pragma warning restore 612, 618
         }

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using store_application.API.models.Data;
 
 namespace store_application.API.Migrations
 {
     [DbContext(typeof(StoreContext))]
-    partial class StoreContextModelSnapshot : ModelSnapshot
+    [Migration("20200829194106_RemovedInventoryProperty")]
+    partial class RemovedInventoryProperty
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -59,12 +61,15 @@ namespace store_application.API.Migrations
                     b.Property<int>("ProdId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("ProductProdId")
+                        .HasColumnType("int");
+
                     b.Property<int>("Stock")
                         .HasColumnType("int");
 
                     b.HasKey("StoreId", "ProdId");
 
-                    b.HasIndex("ProdId");
+                    b.HasIndex("ProductProdId");
 
                     b.HasIndex("StoreId")
                         .IsUnique();
@@ -192,9 +197,7 @@ namespace store_application.API.Migrations
                 {
                     b.HasOne("store_application.API.models.Product", "Product")
                         .WithMany()
-                        .HasForeignKey("ProdId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ProductProdId");
 
                     b.HasOne("app.API.models.Store", "Store")
                         .WithOne("Inventory")

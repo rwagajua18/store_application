@@ -14,6 +14,8 @@ namespace app.API.models
 
         public int LocationId { get; set; }
 
+        public Inventory Inventory { get; set; }
+
         public ICollection<Order> Orders { get; set; }
 
 

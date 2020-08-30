@@ -37,6 +37,27 @@ namespace store_application.API.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Products",
+                columns: table => new
+                {
+                    ProdId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(nullable: true),
+                    Price = table.Column<decimal>(nullable: false),
+                    categoryID = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Products", x => x.ProdId);
+                    table.ForeignKey(
+                        name: "FK_Products_Categories_categoryID",
+                        column: x => x.categoryID,
+                        principalTable: "Categories",
+                        principalColumn: "CategoryId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Customers",
                 columns: table => new
                 {
@@ -81,6 +102,25 @@ namespace store_application.API.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Inventory",
+                columns: table => new
+                {
+                    StoreId = table.Column<int>(nullable: false),
+                    ProdId = table.Column<int>(nullable: false),
+                    Stock = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Inventory", x => new { x.StoreId, x.ProdId });
+                    table.ForeignKey(
+                        name: "FK_Inventory_Stores_StoreId",
+                        column: x => x.StoreId,
+                        principalTable: "Stores",
+                        principalColumn: "StoreId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Orders",
                 columns: table => new
                 {
@@ -107,63 +147,16 @@ namespace store_application.API.Migrations
                         onDelete: ReferentialAction.NoAction);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "Products",
-                columns: table => new
-                {
-                    ProdId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(nullable: true),
-                    Price = table.Column<decimal>(nullable: false),
-                    categoryID = table.Column<int>(nullable: false)
-                    
-                    
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Products", x => x.ProdId);
-                    table.ForeignKey(
-                        name: "FK_Products_Categories_categoryID",
-                        column: x => x.categoryID,
-                        principalTable: "Categories",
-                        principalColumn: "CategoryId",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Inventory",
-                columns: table => new
-                {
-                    StoreId = table.Column<int>(nullable: false),
-                    ProdId = table.Column<int>(nullable: false),
-                    Stock = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Inventory", x => new { x.StoreId, x.ProdId });
-                    table.ForeignKey(
-                        name: "FK_Inventory_Products_ProdId",
-                        column: x => x.ProdId,
-                        principalTable: "Products",
-                        principalColumn: "ProdId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Inventory_Stores_StoreId",
-                        column: x => x.StoreId,
-                        principalTable: "Stores",
-                        principalColumn: "StoreId",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
             migrationBuilder.CreateIndex(
                 name: "IX_Customers_LocationId",
                 table: "Customers",
                 column: "LocationId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Inventory_ProdId",
+                name: "IX_Inventory_StoreId",
                 table: "Inventory",
-                column: "ProdId");
+                column: "StoreId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Orders_StoreId",
@@ -180,46 +173,34 @@ namespace store_application.API.Migrations
                 table: "Products",
                 column: "categoryID");
 
-            
-
             migrationBuilder.CreateIndex(
                 name: "IX_Stores_LocationId",
                 table: "Stores",
                 column: "LocationId");
-
-            
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_Stores_Locations_LocationId",
-                table: "Stores");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_Inventory_Products_ProdId",
-                table: "Inventory");
+            migrationBuilder.DropTable(
+                name: "Inventory");
 
             migrationBuilder.DropTable(
                 name: "Orders");
 
             migrationBuilder.DropTable(
-                name: "Customers");
-
-            migrationBuilder.DropTable(
-                name: "Locations");
-
-            migrationBuilder.DropTable(
                 name: "Products");
+
+            migrationBuilder.DropTable(
+                name: "Stores");
+
+            migrationBuilder.DropTable(
+                name: "Customers");
 
             migrationBuilder.DropTable(
                 name: "Categories");
 
             migrationBuilder.DropTable(
-                name: "Inventory");
-
-            migrationBuilder.DropTable(
-                name: "Stores");
+                name: "Locations");
         }
     }
 }

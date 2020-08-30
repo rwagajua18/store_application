@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using store_application.API.models.Data;
 
 namespace store_application.API.Migrations
 {
     [DbContext(typeof(StoreContext))]
-    partial class StoreContextModelSnapshot : ModelSnapshot
+    [Migration("20200829180506_InitialCreate")]
+    partial class InitialCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -63,8 +65,6 @@ namespace store_application.API.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("StoreId", "ProdId");
-
-                    b.HasIndex("ProdId");
 
                     b.HasIndex("StoreId")
                         .IsUnique();
@@ -190,13 +190,7 @@ namespace store_application.API.Migrations
 
             modelBuilder.Entity("app.API.models.Inventory", b =>
                 {
-                    b.HasOne("store_application.API.models.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProdId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("app.API.models.Store", "Store")
+                    b.HasOne("app.API.models.Store", null)
                         .WithOne("Inventory")
                         .HasForeignKey("app.API.models.Inventory", "StoreId")
                         .OnDelete(DeleteBehavior.Cascade)
