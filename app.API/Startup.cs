@@ -38,6 +38,7 @@ namespace store_application.API
             services.AddScoped<IProductRepo, ProductRepo>();
             services.AddScoped<ICategoryRepo, CategoryRepo>();
             services.AddScoped<IStoreRepository, StoreRepository>();
+            services.AddScoped<ICustomerRepository, CustomerRepository>();
             
             
             
