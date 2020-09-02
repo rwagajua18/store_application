@@ -1,4 +1,5 @@
 using app.API.IRepositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -8,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace app.API.Controllers
 {
+    //[Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class StoreController: ControllerBase
@@ -45,6 +47,20 @@ namespace app.API.Controllers
             }
             
             return Ok(_storeRepository.getProductsFromStore(id));
+        }
+
+        [HttpGet("{storeName}/{productName}")]
+
+        public IActionResult GetProductByName(string storeName, string productName)
+        {
+            if(storeName == null && productName == null)
+            {
+                return BadRequest("Invalid inputs");
+            }
+
+            var product = _storeRepository.getProductFromStore(storeName, productName);
+
+            return Ok(product);
         }
 
 

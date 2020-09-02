@@ -5,9 +5,11 @@ using System.Collections.Generic;
 using store_application.API.models;
 using System.Linq;
 using app.API.IRepositories;
+using Microsoft.AspNetCore.Authorization;
 
 namespace app.API.Controllers
 {
+    //[Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class ProductController : ControllerBase

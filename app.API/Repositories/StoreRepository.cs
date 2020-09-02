@@ -31,5 +31,15 @@ namespace app.API.Repositories
         {
             return _context.Stores.ToList();
         }
+
+        public IEnumerable<Store> getProductFromStore(string storeName, string productName)
+        {
+            var product = _context.Stores
+                          .Include(i => i.Inventory)
+                          .ThenInclude(p => p.Product)
+                          .Where(s => s.StoreName == storeName && s.Inventory.Product.Name == productName).ToList();
+
+            return product;
+        }
     }
 }

@@ -5,6 +5,7 @@ using store_application.API.models.Data;
 using System.Linq;
 using System.Collections.Generic;
 using app.API.DTOs;
+using Microsoft.EntityFrameworkCore;
 
 namespace app.API.Repositories
 {
@@ -109,6 +110,15 @@ namespace app.API.Repositories
 
         }
 
-       
+        public IEnumerable<Customer> GetOrders(string lastName, string firstName)
+        {
+            var orders = _context.Customers
+                         .Include(o => o.Orders).Where(c => c.LastName == lastName && c.FirstName == firstName).ToList();
+
+        
+            return orders;
+            
+
+        }
     }
 }

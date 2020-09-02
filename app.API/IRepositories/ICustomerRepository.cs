@@ -11,6 +11,10 @@ namespace app.API.IRepositories
          //delete a customer
          //Customer exists
          //save changes
+         //get orders of a particular customer
+
+         IEnumerable<Customer> GetOrders(string lastName, string firstName);
+         
 
          void Register(Customer customer, string password);
 

@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using app.API.IRepositories;
 using app.API.Repositories;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -13,6 +15,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using store_application.API.models.Data;
 
 
@@ -39,6 +42,25 @@ namespace store_application.API
             services.AddScoped<ICategoryRepo, CategoryRepo>();
             services.AddScoped<IStoreRepository, StoreRepository>();
             services.AddScoped<ICustomerRepository, CustomerRepository>();
+
+            //add the authentication middleware
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                     .AddJwtBearer(options => {
+                         options.TokenValidationParameters = new TokenValidationParameters
+                         {
+                             ValidateIssuerSigningKey = true,
+                             IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII
+                                  .GetBytes(Configuration.GetSection("AppSettings:Token").Value)),
+
+                            ValidateIssuer = false,
+                            ValidateAudience = false
+
+                            
+
+                         };
+                     });
+
+
             
             
             
@@ -52,11 +74,13 @@ namespace store_application.API
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
 
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseAuthentication();
 
             app.UseEndpoints(endpoints =>
             {
