@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using app.API.IRepositories;
 using app.API.Repositories;
+using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -65,6 +66,10 @@ namespace store_application.API
                      services.AddSwaggerGen(options =>{
                          options.SwaggerDoc("v1", new OpenApiInfo{Title = "Store_application.API", Version = "v1"});
                      });
+
+
+                     //adding automapper as a service
+                     services.AddAutoMapper(typeof(CustomerRepository).Assembly);
                      
             
             

@@ -1,6 +1,6 @@
 namespace app.API.DTOs
 {
-    public class CustomerDTO
+    public class CustomerRegister
     {
         public string FirstName { get; set; }
 

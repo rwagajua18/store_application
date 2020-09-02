@@ -1,10 +1,12 @@
 using System;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using app.API.DTOs;
 using app.API.IRepositories;
 using app.API.models;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -13,18 +15,20 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace app.API.Controllers
 {
-      
+
     [ApiController]
     [Route("api/[controller]")]
-    public class CustomerController: ControllerBase
+    public class CustomerController : ControllerBase
     {
         private readonly ILogger<CustomerController> _logger;
         private readonly ICustomerRepository _customerRepository;
+        private readonly IMapper _mapper;
 
-         private readonly IConfiguration _config;
+        private readonly IConfiguration _config;
         public CustomerController(ILogger<CustomerController> logger, ICustomerRepository customerRepository,
-                                  IConfiguration config)
+                                  IConfiguration config, IMapper mapper)
         {
+            _mapper = mapper;
             _config = config;
             _customerRepository = customerRepository;
             _logger = logger;
@@ -35,11 +39,13 @@ namespace app.API.Controllers
         public IActionResult GetCustomers()
         {
             var customers = _customerRepository.GetCustomers();
-            return Ok(customers);
+
+            var customerToReturn = _mapper.Map<IEnumerable<CustomerDetailDTO>>(customers);
+            return Ok(customerToReturn);
         }
 
         [HttpPost("{Register}")]
-        public IActionResult Register(CustomerDTO customer)
+        public IActionResult Register(CustomerRegister customer)
         {
             var newCustomer = new Customer
             {
@@ -48,7 +54,7 @@ namespace app.API.Controllers
                 Username = customer.Username,
                 email = customer.email,
                 LocationId = customer.LocationId
-   
+
             };
 
             _customerRepository.Register(newCustomer, customer.password);
@@ -63,7 +69,7 @@ namespace app.API.Controllers
         {
             //checking if the user is logged in
             var customerRepository = _customerRepository.Login(customer.username.ToLower(), customer.password);
-            if(customerRepository == null)
+            if (customerRepository == null)
             {
                 return Unauthorized();
             }
@@ -93,7 +99,8 @@ namespace app.API.Controllers
             var Token = TokenHandler.CreateToken(tokenDescriptor);
 
             //return the jwt token to the client
-            return Ok(new{
+            return Ok(new
+            {
                 token = TokenHandler.WriteToken(Token)
             });
 
@@ -104,13 +111,16 @@ namespace app.API.Controllers
         [HttpGet("{lastName}/{firstName}")]
         public IActionResult getOrders(string lastName, string firstName)
         {
-            if(lastName == null && firstName == null)
+            if (lastName == null && firstName == null)
             {
                 return BadRequest("No names specified");
             }
 
-            var orders = _customerRepository.GetOrders(lastName, firstName);
-            return Ok(orders);
+            var customerOrders = _customerRepository.GetOrders(lastName, firstName);
+
+            var customerOrderToReturn = _mapper.Map<IEnumerable<CustomerOrders>>(customerOrders);
+
+            return Ok(customerOrderToReturn);
         }
     }
 }
