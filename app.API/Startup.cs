@@ -16,6 +16,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using store_application.API.models.Data;
 
 
@@ -60,9 +61,11 @@ namespace store_application.API
                          };
                      });
 
-
-            
-            
+                     //adding swagger to the api
+                     services.AddSwaggerGen(options =>{
+                         options.SwaggerDoc("v1", new OpenApiInfo{Title = "Store_application.API", Version = "v1"});
+                     });
+                     
             
             
         }
@@ -86,6 +89,14 @@ namespace store_application.API
             {
                 endpoints.MapControllers();
             });
+
+            //Enable middleware to serve generated Swagger
+            app.UseSwagger();
+
+            app.UseSwaggerUI(options => {
+                options.SwaggerEndpoint("/swagger/v1/swagger.json", "Store_application.API V1");
+            });
+            
         }
     }
 }
