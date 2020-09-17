@@ -4,9 +4,11 @@ using Microsoft.Extensions.Logging;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using app.API.IRepositories;
+using Microsoft.AspNetCore.Authorization;
 
 namespace app.API.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class CategoryController: ControllerBase

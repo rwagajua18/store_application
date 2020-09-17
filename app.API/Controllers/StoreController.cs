@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace app.API.Controllers
 {
-    //[Authorize]
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class StoreController: ControllerBase

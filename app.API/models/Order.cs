@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace app.API.models
@@ -12,5 +13,6 @@ namespace app.API.models
         public int StoreId { get; set; }
         public Store Store { get; set; }
         public DateTime OrderCreated { get; set; }
+        public ICollection<Order_detail> Order_details {get; set;}
     }
 }

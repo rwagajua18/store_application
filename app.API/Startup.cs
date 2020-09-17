@@ -44,6 +44,10 @@ namespace store_application.API
             services.AddScoped<ICategoryRepo, CategoryRepo>();
             services.AddScoped<IStoreRepository, StoreRepository>();
             services.AddScoped<ICustomerRepository, CustomerRepository>();
+            services.AddScoped<IOrderRepository, OrderRepository>();
+            
+            //adds cross origin resource sharing.
+            services.AddCors();
 
             //add the authentication middleware
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -70,6 +74,7 @@ namespace store_application.API
 
                      //adding automapper as a service
                      services.AddAutoMapper(typeof(CustomerRepository).Assembly);
+                     services.AddAutoMapper(typeof(OrderRepository).Assembly);
                      
             
             
@@ -82,13 +87,20 @@ namespace store_application.API
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseRouting();
+            
+
             //app.UseHttpsRedirection();
 
-            app.UseRouting();
+            //enable CORS 
+            app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+
+            
+            app.UseAuthentication();
 
             app.UseAuthorization();
 
-            app.UseAuthentication();
+            
 
             app.UseEndpoints(endpoints =>
             {

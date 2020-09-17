@@ -10,6 +10,7 @@ namespace app.API.Helpers
         {
             CreateMap<Customer, CustomerDetailDTO>();
             CreateMap<Customer, CustomerOrders>();
+            CreateMap<Order, OrderDTO>();
             
         }
         

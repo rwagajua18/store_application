@@ -23,11 +23,13 @@ namespace app.API.Controllers
         private readonly ILogger<CustomerController> _logger;
         private readonly ICustomerRepository _customerRepository;
         private readonly IMapper _mapper;
+        private readonly IOrderRepository _orderRepository;
 
         private readonly IConfiguration _config;
         public CustomerController(ILogger<CustomerController> logger, ICustomerRepository customerRepository,
-                                  IConfiguration config, IMapper mapper)
+                                  IOrderRepository orderRepository, IConfiguration config, IMapper mapper)
         {
+            _orderRepository = orderRepository;
             _mapper = mapper;
             _config = config;
             _customerRepository = customerRepository;
@@ -44,7 +46,7 @@ namespace app.API.Controllers
             return Ok(customerToReturn);
         }
 
-        [HttpPost("{Register}")]
+        [HttpPost("register")]
         public IActionResult Register(CustomerRegister customer)
         {
             var newCustomer = new Customer
@@ -63,7 +65,7 @@ namespace app.API.Controllers
 
         }
 
-        [HttpPost]
+        [HttpPost("login")]
 
         public IActionResult Login(CustomerLoginDTO customer)
         {
@@ -122,5 +124,16 @@ namespace app.API.Controllers
 
             return Ok(customerOrderToReturn);
         }
+
+        [HttpPost]
+        public IActionResult PostOrder(Order order)
+        {
+            var orderToPost = _mapper.Map<IEnumerable<OrderDTO>>(order);
+           
+            _orderRepository.PlaceOrder((Order)orderToPost);
+            return Ok();
+        }
+
+
     }
 }

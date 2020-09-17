@@ -16,6 +16,8 @@ namespace store_application.API.models
 
         public int categoryID { get; set; }
 
+        public ICollection<Order_detail> Order_Details{get; set;}
+
     
 
         

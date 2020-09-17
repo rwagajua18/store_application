@@ -9,10 +9,11 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace app.API.Controllers
 {
-    //[Authorize]
+
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
-    public class ProductController : ControllerBase
+        public class ProductController : ControllerBase
     {
         //private readonly StoreContext _context;
         private readonly ILogger<ProductController> _logger;
