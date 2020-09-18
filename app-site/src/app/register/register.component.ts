@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {LoginRegisterService} from '../services/login-register.service';
+import { IUserReg } from '../_models/userRegister';
 
 @Component({
   selector: 'app-register',
@@ -7,16 +9,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RegisterComponent implements OnInit {
 
-  model: any = {};
+  user: any = {}
 
-  constructor() { }
+  //injecting LoginRegisterService
+  constructor(private loginRegister: LoginRegisterService) { }
 
   ngOnInit(): void {
   }
 
   //register method
   register(){
-    console.log(this.model);
+    this.loginRegister.register(this.user).subscribe(() =>{
+      console.log('registration successful');
+    }, error => {
+      console.log(error)
+    })
   }
 
   //method to cancel registration
