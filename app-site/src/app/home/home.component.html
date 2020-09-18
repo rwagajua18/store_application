@@ -1,0 +1,20 @@
+<div class="container mt-5">
+    <div *ngIf="!registerMode" style="text-align: center">
+      <h1>Find products that you need</h1>
+      <p class="lead">Start shopping... All you need to do is sign up!</p>
+      <div class="text-center">
+        <button class="btn btn-primary btn-lg mr-2" (click)="registerToggle()">Register</button>
+        <button class="btn btn-info btn-lg">Learn more</button>
+      </div>
+    </div>
+  
+    <div *ngIf="registerMode" class="container">
+      <div class="row justify-content-center">
+        <div class="col-4">
+            <!--This select makes sure that the register component is a child component of Home component-->
+            <app-register></app-register> 
+  
+        </div>
+      </div>
+    </div>
+  </div>
