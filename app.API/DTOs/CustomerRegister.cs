@@ -14,5 +14,7 @@ namespace app.API.DTOs
 
          public int LocationId { get; set; }
 
+         
+
     }
 }

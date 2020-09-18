@@ -84,6 +84,7 @@ namespace app.API.Controllers
                 Username = customer.Username,
                 email = customer.email,
                 LocationId = customer.LocationId
+                
 
             };
 
