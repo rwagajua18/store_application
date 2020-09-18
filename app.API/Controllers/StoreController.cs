@@ -14,16 +14,27 @@ namespace app.API.Controllers
     [ApiController]
     public class StoreController: ControllerBase
     {
-        private readonly ILogger<StoreController> _logger;
+
         
+        /// <summary>
+        /// store repository field
+        /// </summary>
         private readonly IStoreRepository _storeRepository;
 
-        public StoreController(ILogger<StoreController> logger,IStoreRepository storeRepository)
+        /// <summary>
+        /// Initializes fields
+        /// </summary>
+        /// <param name="storeRepository"></param>
+        public StoreController(IStoreRepository storeRepository)
         {
             
-            _logger = logger;
             _storeRepository = storeRepository;
         }
+
+        /// <summary>
+        /// gets all stores
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public IActionResult GetStores()
         {
@@ -37,6 +48,12 @@ namespace app.API.Controllers
             
         }
 
+
+        /// <summary>
+        /// gets all products from a specific store
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("{id}")]
 
         public  IActionResult GetProductsFromStore(int id)
@@ -48,6 +65,13 @@ namespace app.API.Controllers
             
             return Ok(_storeRepository.getProductsFromStore(id));
         }
+
+        /// <summary>
+        /// get a product by its name from a specific store.
+        /// </summary>
+        /// <param name="storeName"></param>
+        /// <param name="productName"></param>
+        /// <returns></returns>
 
         [HttpGet("{storeName}/{productName}")]
 

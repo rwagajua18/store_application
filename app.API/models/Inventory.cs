@@ -5,6 +5,9 @@ using store_application.API.models;
 
 namespace app.API.models
 {
+    /// <summary>
+    /// Inventory model
+    /// </summary>
     public class Inventory
     {
         [Key]

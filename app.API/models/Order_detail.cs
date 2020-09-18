@@ -3,6 +3,9 @@ using store_application.API.models;
 
 namespace app.API.models
 {
+    /// <summary>
+    /// order detail model
+    /// </summary>
     public class Order_detail
     {
         [Key]

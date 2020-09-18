@@ -3,6 +3,10 @@ using System.ComponentModel.DataAnnotations;
 
 namespace store_application.API.models
 {
+
+    /// <summary>
+    /// category model
+    /// </summary>
     public class Category
     {
         

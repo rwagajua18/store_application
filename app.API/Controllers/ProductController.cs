@@ -15,17 +15,29 @@ namespace app.API.Controllers
     [Route("api/[controller]")]
         public class ProductController : ControllerBase
     {
-        //private readonly StoreContext _context;
-        private readonly ILogger<ProductController> _logger;
+
+        /// <summary>
+        /// product repository field
+        /// </summary>
 
         private readonly IProductRepo _productRepo;
 
-        public ProductController(ILogger<ProductController> logger, IProductRepo productRepo)
+        /// <summary>
+        /// Product constructor. Initializes fields
+        /// </summary>
+        /// <param name="productRepo"></param>
+
+        public ProductController(IProductRepo productRepo)
         {
             _productRepo = productRepo;
-            _logger = logger;
+            
             
         }
+
+        /// <summary>
+        /// gets all products
+        /// </summary>
+        /// <returns></returns>
 
         [HttpGet]
         public IActionResult  Get()
@@ -37,6 +49,12 @@ namespace app.API.Controllers
             }
             return Ok(products);
         }
+
+        /// <summary>
+        /// returns a specific product
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
 
         [HttpGet("{id}")]
 
@@ -51,6 +69,12 @@ namespace app.API.Controllers
 
         }
 
+        /// <summary>
+        /// adds a product to the system
+        /// </summary>
+        /// <param name="product"></param>
+        /// <returns></returns>
+
         [HttpPost]
         public IActionResult AddProduct(Product product)
         {
@@ -60,8 +84,14 @@ namespace app.API.Controllers
             return Accepted(product);
         }
 
-        [HttpDelete("{id}")]
 
+        /// <summary>
+        /// delets a product
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+
+        [HttpDelete("{id}")]
         public IActionResult DeleteProduct(int id)
         {
             if(id <= 0)

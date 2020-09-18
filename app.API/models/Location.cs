@@ -3,6 +3,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace app.API.models
 {
+    /// <summary>
+    /// location model
+    /// </summary>
     public class Location
     {
         [Key]

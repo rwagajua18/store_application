@@ -4,6 +4,9 @@ using app.API.models;
 
 namespace store_application.API.models
 {
+    /// <summary>
+    /// Product model
+    /// </summary>
     public class Product
     {
         [Key]

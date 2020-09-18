@@ -2,6 +2,9 @@ using System.Collections.Generic;
 
 namespace app.API.models
 {
+    /// <summary>
+    /// customer model
+    /// </summary>
     public class Customer
     {
         public int CustomerId { get; set; }

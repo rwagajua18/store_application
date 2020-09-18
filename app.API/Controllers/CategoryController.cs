@@ -13,13 +13,16 @@ namespace app.API.Controllers
     [Route("api/[controller]")]
     public class CategoryController: ControllerBase
     {
+        /// <summary>
+        /// category repository field
+        /// </summary>
         private readonly ICategoryRepo _categoryRepo;
+        
+    
 
-        private ILogger<CategoryController> _logger;
-
-        public CategoryController(ILogger<CategoryController> logger, ICategoryRepo categoryRepo)
+        public CategoryController(ICategoryRepo categoryRepo)
         {
-            _logger = logger;
+        
             _categoryRepo = categoryRepo;
             
         }

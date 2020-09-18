@@ -3,6 +3,10 @@ using System.ComponentModel.DataAnnotations;
 
 namespace app.API.models
 {
+
+    /// <summary>
+    /// Store model
+    /// </summary>
     public class Store
     {
         [Key]

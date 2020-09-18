@@ -4,6 +4,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace app.API.models
 {
+    /// <summary>
+    /// Order model
+    /// </summary>
     public class Order
     {
         [Key]

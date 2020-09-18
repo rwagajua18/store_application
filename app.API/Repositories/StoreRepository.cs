@@ -8,6 +8,9 @@ using store_application.API.models.Data;
 
 namespace app.API.Repositories
 {
+    /// <summary>
+    /// store repository
+    /// </summary>
     public class StoreRepository:IStoreRepository
     {
         private readonly StoreContext _context;
@@ -16,6 +19,12 @@ namespace app.API.Repositories
             _context = context;
 
         }
+
+        /// <summary>
+        /// gets products from the store
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>a list of products</returns>
 
         public IEnumerable<Store> getProductsFromStore(int id)
         {
@@ -27,11 +36,21 @@ namespace app.API.Repositories
             return products;
         }
 
+        /// <summary>
+        /// gets all stores
+        /// </summary>
+        /// <returns>a list of stores</returns>
         public IEnumerable<Store> getStores()
         {
             return _context.Stores.ToList();
         }
-
+        
+        /// <summary>
+        /// returns a list of products from a store by its name.
+        /// </summary>
+        /// <param name="storeName"></param>
+        /// <param name="productName"></param>
+        /// <returns>list of products</returns>
         public IEnumerable<Store> getProductFromStore(string storeName, string productName)
         {
             var product = _context.Stores
